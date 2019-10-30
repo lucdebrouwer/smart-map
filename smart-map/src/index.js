@@ -9,11 +9,13 @@ if (require('electron-squirrel-startup')) { // eslint-disable-line global-requir
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
+
 const createWindow = () => {
   // Create the browser window.
   mainWindow = new BrowserWindow({
     width: 540,
     height: 960,
+    autoHideMenuBar: true
   });
 
   // and load the index.html of the app.
@@ -21,6 +23,8 @@ const createWindow = () => {
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools();
+
+
 
   // Emitted when the window is closed.
   mainWindow.on('closed', () => {

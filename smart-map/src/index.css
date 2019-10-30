@@ -1,15 +1,15 @@
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  /* margin: auto; */
-  max-width: 38rem;
   padding: 2rem;
 }
 
 button {
   margin-top: 8px;
-  margin-right: 8px;
+  margin-right: 1.5%;
+  margin-left: 1.5%;
+  width: 100px;
 }
 
 img {
-  max-width: 140%;
+  max-width: 100%;
 }

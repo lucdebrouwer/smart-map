@@ -1,8 +1,10 @@
 var mapboxgl = require('mapbox-gl');
 
+//Personal access token for mapbox
 mapboxgl.accessToken =
-    "";
+    "pk.eyJ1IjoicmVuc2IiLCJhIjoiY2o3bm52anZoMnlxNTJycXBuNmF5eXBjeSJ9.w24bQq3Zm3deNY68pPPBwg";
 
+//Create new map object
 var map = new mapboxgl.Map({
     container: "container",
     style: "mapbox://styles/mapbox/light-v10",
@@ -11,7 +13,12 @@ var map = new mapboxgl.Map({
 
 });
 
-const viernulzeven = [[5.478914, 51.4438373],
+//Stores currently loaded markers
+var markers = [];
+
+//TODO: remove hardcoded path and load paths from server
+const viernulzeven = [
+[5.478914, 51.4438373],
 [5.4789998, 51.4436082],
 [5.4792841, 51.4436701],
 [5.479091, 51.4442218],
@@ -80,23 +87,50 @@ const viernulzeven = [[5.478914, 51.4438373],
 
 //Map loaded
 map.on("load", function () {
-    AddBusLine(viernulzeven, '#5b85aa', 8)
-    AddStopMarkers(viernulzeven, "custom-marker")
+
 });
 
+//Add line and markers to map
+function AddLine(){
+    AddBusLine(viernulzeven, '#5b85aa', 8)
+    AddStopMarkers(viernulzeven, "custom-marker")
+}
+
+//Remove line and markers from map
+function RemoveLine(){
+    map.removeLayer("route");
+    map.removeSource("route");
+    markers.forEach(marker => {
+        marker.remove();
+    })
+
+    markers = [];
+}
+
+//Move to the location of the clicked marker
+function MarkerClicked(point) {
+    map.flyTo({center: point, zoom: 15})
+}
+
+//Create a marker for every position in points
 function AddStopMarkers(points) {
     points.forEach(point => {
         var el = document.createElement('div');
         el.className = 'marker';
+        el.style.cursor = 'pointer';
+        el.addEventListener("click", function(){MarkerClicked(point)}); 
 
-        new mapboxgl.Marker(el, {
+        var mark = new mapboxgl.Marker(el, {
             offset: [0, -19]
         })
             .setLngLat(point)
             .addTo(map);
+
+        markers.push(mark);
     });
 }
 
+//Add line to map following the positions in points
 function AddBusLine(points, color, width) {
     map.addLayer({
         "id": "route",
@@ -121,4 +155,12 @@ function AddBusLine(points, color, width) {
             "line-width": width
         }
     });
+
+    //Get the bounds of the line
+    var bounds = points.reduce(function(bounds,coord){
+        return bounds.extend(coord);
+    }, new mapboxgl.LngLatBounds(points[0], points[0]));
+
+    //Move the camera so the line fits on screen
+    map.fitBounds(bounds , {padding: 80})
 }

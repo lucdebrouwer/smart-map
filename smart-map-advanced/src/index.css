@@ -4,3 +4,22 @@ body {
   max-width: 38rem;
   padding: 2rem;
 }
+
+#container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: 0;
+  width: 100%;
+  transition: all 0.3s;
+}
+
+.marker {
+  background-image: url(https://i.imgur.com/GXd5YCc.png);
+  background-size: cover;
+  width: 30px;
+  height: 38px;
+  cursor: pointer;
+}

@@ -3,22 +3,14 @@
   <head>
     <meta charset="utf-8">
         <link href='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' />
-        <link href='styles.css' rel='stylesheet' />
+        <link href='index.css' rel='stylesheet' />
     <title></title>
   </head>
   <body>
-    <div id='container' style="
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      margin: 0;
-      width: 100%;
-      transition: all 0.3s;"></div>
 
-    <script>
-        require('./renderer.js')
-    </script>
+    <div id='container'></div>
+    <button style="z-index: 10;" onclick="AddLine()">Add line</button>
+    <button style="z-index: 10;" onclick="RemoveLine()">Remove line</button>
+    <script src='renderer.js'></script>
   </body>
 </html>

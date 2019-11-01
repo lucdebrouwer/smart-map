@@ -128,7 +128,9 @@ app.get("/", (req, res) => {
       "/journey/eindhoven",
       "/actuals/eindhoven/:journeykey",
       "/lines/",
-      "/lines/dacs/"
+      "/lines/dacs/",
+      "/route",
+      "/route/:line"
       //"/lines/:dac_:lpn_:direction"
     ]
   });

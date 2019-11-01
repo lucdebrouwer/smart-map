@@ -1,9 +1,14 @@
 let urls = []; // Will store url's that retrieve "actuals" data from the linenumbers.
-
+let dataObj = {
+  data: {
+    actuals: {},
+    directions: {}
+  }
+};
 // Function that does:
- // Retrieve all line data
- // Filter line data so we get back the 8 lines we chose to provide information on
- // Pass this data to getActuals to fetch the actual data per line
+// Retrieve all line data
+// Filter line data so we get back the 8 lines we chose to provide information on
+// Pass this data to getActuals to fetch the actual data per line
 async function getLines(url) {
   return await fetch(url, {
     headers: {
@@ -28,8 +33,9 @@ async function doSomething(data) {
     })
     // Multiple values can collide with each other, we only want the data from Eindhoven so we filter the data further by adding the DataOwnerCode to the dataset.
     .filter(key => {
-      return key.DataOwnerCode === "CXX";
+      return key.DataOwnerCode === "CXX"; // ARR
     });
+
   await getActuals(filtered);
 }
 
@@ -54,7 +60,11 @@ async function getActuals(data) {
   fetch(urls[0]).then(res =>
     res
       .json()
-      .then(res => console.log(res))
+      .then(res => {
+        dataObj.data.actuals = res.CXX_L404_2.Actuals;
+        dataObj.data.directions = res.CXX_L404_2.Network;
+        console.log(dataObj);
+      })
       .catch(err => console.error(err))
   );
 }

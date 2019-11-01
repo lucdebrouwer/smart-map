@@ -100,13 +100,27 @@ async function getActualsData(journeyLineKeys, lineNumbers) {
   return actualsData;
 }
 
+async function getLineData() {
+  const data = await fetch("http://v0.ovapi.nl/line/").then(res => res.json());
+  if (data > 0) {
+    return data;
+  } else {
+    return {
+      error: "Something went wrong"
+    };
+  }
+}
+
 app.get("/", (req, res) => {
   res.json({
     message: "Welcome to the smart-map API",
     possibleRoutes: [
       "/journey",
       "/journey/eindhoven",
-      "/actuals/eindhoven/:journeykey"
+      "/actuals/eindhoven/:journeykey",
+      "/lines/",
+      "/lines/:region",
+      "/lines/:region/:line"
     ]
   });
 });
@@ -151,6 +165,16 @@ app.get("/actuals/eindhoven/:journeykey", async (req, res, next) => {
     let actualsData = await getActualsData(journeyLineKeys, lineNumbers);
     res.json({ actualsData });
     next();
+  } catch (error) {
+    res.json({ error: error.message });
+    next(error);
+  }
+});
+
+app.get("/lines", async (req, res, next) => {
+  try {
+    let lineData = await getLineData();
+    res.json(lineData);
   } catch (error) {
     res.json({ error: error.message });
     next(error);

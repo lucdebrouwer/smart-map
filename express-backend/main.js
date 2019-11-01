@@ -2,6 +2,8 @@ const express = require("express");
 const fetch = require("node-fetch");
 const app = express();
 
+const mainRoute = require("./routes/route");
+app.use(mainRoute);
 // Returns all journey data in region Eindhoven
 // The region code is CXX
 async function getJourneyData() {
@@ -75,22 +77,15 @@ async function getActualsData(journeyLineKeys, lineNumbers) {
   }, []);
   let newData = data;
 
-  // Use the spread operator to turn an array into an object
-  let arrToDataObj = { ...newData };
+  let dataArray = [...newData];
 
   // as "https://github.com/skywave/KV78Turbo-OVAPI/wiki/Journey" defines,
   // we need to add a comma seperated list to the fetch call if we want the data for more than one journeykey
   // so we create a new array from the object, loop over the values and join the keys together with a ","
-  let arrToDataObjSpliced = Object.keys(arrToDataObj)
-    .map(function(k) {
-      return arrToDataObj[k];
-    })
-    .join(",");
 
+  let dataSpliced = dataArray.join(",");
   // Retrieve the data we need
-  let actualsData = await fetch(
-    `http://v0.ovapi.nl/journey/${arrToDataObjSpliced}`
-  )
+  let actualsData = await fetch(`http://v0.ovapi.nl/journey/${dataSpliced}`)
     .then(res => res.json())
     .catch(err => {
       return {
@@ -102,7 +97,8 @@ async function getActualsData(journeyLineKeys, lineNumbers) {
 
 async function getLineData() {
   const data = await fetch("http://v0.ovapi.nl/line/").then(res => res.json());
-  if (data > 0) {
+
+  if (data) {
     return data;
   } else {
     return {
@@ -111,6 +107,19 @@ async function getLineData() {
   }
 }
 
+async function getLineDataPerRegion() {
+  const lineData = await getLineData();
+  const newArray = Object.values(lineData).map(key => {
+    return key.DataOwnerCode;
+  });
+
+  const filteredDataOwnerCodes = newArray.filter((item, index) => {
+    return newArray.indexOf(item) === index;
+  });
+  return filteredDataOwnerCodes;
+}
+
+/*  -------- Main Route --------- */
 app.get("/", (req, res) => {
   res.json({
     message: "Welcome to the smart-map API",
@@ -119,13 +128,26 @@ app.get("/", (req, res) => {
       "/journey/eindhoven",
       "/actuals/eindhoven/:journeykey",
       "/lines/",
-      "/lines/:region",
-      "/lines/:region/:line"
+      "/lines/dacs/"
+      //"/lines/:dac_:lpn_:direction"
     ]
   });
 });
 
+//TODO:  Build API route that retrieves the line data
+
+// app.get("/lines/:dac/:lpn/:direction", async (req, res, next) => {
+//   try {
+//     res.json({
+//       url: `/lines/${req.params.dac}_${req.params.lpn}_${req.params.direction}`
+//     });
+//   } catch (error) {
+//     res.json({ error: error.message });
+//   }
+// });
+
 // Main route that retrieves all journeyData keys
+/*  -------- Journey Routes --------- */
 app.get("/journey", async (req, res, next) => {
   try {
     const data = await getProcessedJourneyData();
@@ -151,6 +173,8 @@ app.get("/journey/eindhoven", async (req, res, next) => {
 
 // Route that retrieves the actual data from the given line
 // Data like stops that contain the actual timestamps, altitude & lattitude data
+
+/*  --------  RealTime routes --------- */
 app.get("/actuals/eindhoven/:journeykey", async (req, res, next) => {
   try {
     // We retrieve all journey keys from eindhoven
@@ -171,6 +195,8 @@ app.get("/actuals/eindhoven/:journeykey", async (req, res, next) => {
   }
 });
 
+/*  -------- Line Routes --------- */
+
 app.get("/lines", async (req, res, next) => {
   try {
     let lineData = await getLineData();
@@ -181,5 +207,16 @@ app.get("/lines", async (req, res, next) => {
   }
 });
 
+app.get("/lines/dacs", async (req, res, next) => {
+  try {
+    let lineDataPerRegion = await getLineDataPerRegion();
+    res.json(lineDataPerRegion);
+  } catch (error) {
+    res.json({ error: error.message });
+    next(error);
+  }
+});
+
+/*  -------- Server --------- */
 // Setup our server
 app.listen(3000, () => console.log("Api Server is listening on port 3000"));

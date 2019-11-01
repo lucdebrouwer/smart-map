@@ -1,0 +1,38 @@
+body{
+  font: 15px/1.5 Arial, Helvetica,sans-serif;
+  padding:0;
+  background-color:#000000;
+  margin-top: 50%;
+  margin-bottom: 50%;
+}
+
+/* Global */
+.container{
+    margin: auto;
+    width: 60%;
+    border-radius: 20px;
+    padding: 10px;
+    text-align: center;
+    margin-left: auto;
+  margin-right: auto;
+  background: #fafafa;
+  
+ 
+}
+
+.box{
+  background: #ededed;
+  margin: 0px;
+  text-align: center;
+ border-radius: 10px;
+}
+
+p{
+  margin-top: 10px;
+  margin-bottom: 4px;
+}
+
+h3{
+  margin-top: 10px;
+  margin-bottom: 4px;
+}

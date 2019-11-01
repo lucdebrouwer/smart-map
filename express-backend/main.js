@@ -38,7 +38,16 @@ async function getProcessedJourneyData() {
 // This function will retrieve all JourneyKeys from Eindhoven
 async function getJourneyLines() {
   const journeyData = await getProcessedJourneyData();
-  const lineNumbers = ["400", "401", "402", "403", "404", "405", "406", "407"];
+  const lineNumbers = [
+    "L400",
+    "L401",
+    "L402",
+    "L403",
+    "L404",
+    "L405",
+    "L406",
+    "L407"
+  ];
   const data = Object.values(journeyData).reduce((acc, key) => {
     lineNumbers.map(n => {
       if (key.includes(n)) {
@@ -81,7 +90,13 @@ async function getActualsData(journeyLineKeys, lineNumbers) {
   // Retrieve the data we need
   let actualsData = await fetch(
     `http://v0.ovapi.nl/journey/${arrToDataObjSpliced}`
-  ).then(res => res.json());
+  )
+    .then(res => res.json())
+    .catch(err => {
+      return {
+        error: "Something went wrong fetching the actuals data " + err.message
+      };
+    });
   return actualsData;
 }
 
@@ -103,6 +118,7 @@ app.get("/journey", async (req, res, next) => {
     res.json({ data });
     next();
   } catch (error) {
+    res.json({ error: error.message });
     next(error);
   }
 });
@@ -114,6 +130,7 @@ app.get("/journey/eindhoven", async (req, res, next) => {
     res.json({ data });
     next();
   } catch (error) {
+    res.json({ error: error.message });
     next(error);
   }
 });
@@ -130,10 +147,12 @@ app.get("/actuals/eindhoven/:journeykey", async (req, res, next) => {
     // We retrieve the query which is just a line number and pass it to data fetching function
     let query = req.params.journeykey;
     const lineNumbers = [query];
+
     let actualsData = await getActualsData(journeyLineKeys, lineNumbers);
     res.json({ actualsData });
     next();
   } catch (error) {
+    res.json({ error: error.message });
     next(error);
   }
 });

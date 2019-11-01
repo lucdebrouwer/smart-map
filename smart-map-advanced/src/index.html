@@ -12,9 +12,8 @@
 
   <div id='container'></div>
 
-  <section class="topbar backbutton">
+  <section class="topbar backbutton" onclick="ClearMap()">
     <div class="box">
-    <img src="img/backbutton.png" class="image">
     </div>
   </section>
 
@@ -24,7 +23,10 @@
       <h3>400</h3>
       <p class="station">Eindhoven Airport</p>
     </div>
-
+    <div id="linebutton" class="box" onclick="AddLine(401)">
+      <h3>401</h3>
+      <p class="station">Eindhoven Airport</p>
+    </div>
     <div id="linebutton" class="box" onclick="AddLine(402)">
       <h3>402</h3>
       <p class="station">Veldhoven</p>

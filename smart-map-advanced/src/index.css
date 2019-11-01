@@ -16,6 +16,10 @@ body {
   z-index: -10;
 }
 
+#linebutton {
+  background-color: #ededed;
+}
+
 .marker {
   background-image: url(./img/marker.png);
   background-size: cover;
@@ -39,17 +43,17 @@ body {
 
 .topbar{
   margin: auto;
-  border-radius: 20px;
+  border-radius: 50px;
   padding: 10px;
   text-align: center;
-  margin-left: auto;
-  margin-right: auto;
+  /* margin-left: auto;
+  margin-right: auto; */
   background: #fafafa;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 .box{
-background: #ededed;
+/* background: white; */
 margin: 0px;
 text-align: center;
 border-radius: 10px;
@@ -83,12 +87,12 @@ margin-top: -10px;
 
 .backbutton {
   float: left;
-  width: 75px;
-  background-color: white;
-}
-
-.image {
-  background-color: white;
-  margin-bottom: -10px;
-  width: 75px;
+  width: 50px;
+  height: 50px;
+  background-color: #fafafa;
+  background-image: url(./img/backbutton.png);
+  background-repeat: no-repeat;
+  background-position: center; 
+  background-size: 75px;
+  margin-left: -10px;
 }

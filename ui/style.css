@@ -16,8 +16,8 @@ body{
     margin-left: auto;
   margin-right: auto;
   background: #fafafa;
-  
- 
+
+
 }
 
 .box{
@@ -35,4 +35,8 @@ p{
 h3{
   margin-top: 10px;
   margin-bottom: 4px;
+}
+
+.station {
+  margin-top: -10px;
 }

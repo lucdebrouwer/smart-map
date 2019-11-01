@@ -27,7 +27,7 @@ body {
 /* Global */
 .selection{
   margin: auto;
-  width: 60%;
+  width: 500px;
   border-radius: 20px;
   padding: 10px;
   text-align: center;
@@ -39,7 +39,6 @@ body {
 
 .topbar{
   margin: auto;
-  width: 60%;
   border-radius: 20px;
   padding: 10px;
   text-align: center;
@@ -54,7 +53,7 @@ background: #ededed;
 margin: 0px;
 text-align: center;
 border-radius: 10px;
--webkit-user-select: none; /* Safari */        
+-webkit-user-select: none; /* Safari */
 -moz-user-select: none; /* Firefox */
 -ms-user-select: none; /* IE10+/Edge */
 user-select: none; /* Standard */
@@ -63,7 +62,7 @@ user-select: none; /* Standard */
 p{
 margin-top: 10px;
 margin-bottom: 4px;
--webkit-user-select: none; /* Safari */        
+-webkit-user-select: none; /* Safari */
 -moz-user-select: none; /* Firefox */
 -ms-user-select: none; /* IE10+/Edge */
 user-select: none; /* Standard */
@@ -72,7 +71,7 @@ user-select: none; /* Standard */
 h3{
 margin-top: 10px;
 margin-bottom: 4px;
--webkit-user-select: none; /* Safari */        
+-webkit-user-select: none; /* Safari */
 -moz-user-select: none; /* Firefox */
 -ms-user-select: none; /* IE10+/Edge */
 user-select: none; /* Standard */
@@ -84,5 +83,12 @@ margin-top: -10px;
 
 .backbutton {
   float: left;
-  width: 200px;
+  width: 75px;
+  background-color: white;
+}
+
+.image {
+  background-color: white;
+  margin-bottom: -10px;
+  width: 75px;
 }

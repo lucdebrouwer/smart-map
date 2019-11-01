@@ -1,16 +1,57 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-        <link href='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' />
-        <link href='index.css' rel='stylesheet' />
-    <title></title>
-  </head>
-  <body>
 
-    <div id='container'></div>
-    <button style="z-index: 10;" onclick="AddLine()">Add line</button>
-    <button style="z-index: 10;" onclick="RemoveLine()">Remove line</button>
-    <script src='renderer.js'></script>
-  </body>
+<head>
+  <meta charset="utf-8">
+  <link href='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' />
+  <link href='index.css' rel='stylesheet' />
+  <title></title>
+</head>
+
+<body>
+
+  <div id='container'></div>
+
+  <section class="topbar backbutton">
+    <div class="box">
+    <a href="#">  &#8249; Terug </a>
+    </div>
+  </section>
+
+  <div class="selection">
+    <h1 id="title"> Kies uw buslijn</h1>
+    <div id="linebutton" class="box" onclick="AddLine(400)">
+      <h3>400</h3>
+      <p class="station">Eindhoven Airport</p>
+    </div>
+
+    <div id="linebutton" class="box" onclick="AddLine(402)">
+      <h3>402</h3>
+      <p class="station">Veldhoven</p>
+    </div>
+    <div id="linebutton" class="box" onclick="AddLine(403)">
+      <h3>403</h3>
+      <p class="station">Oerle</p>
+    </div>
+    <div id="linebutton" class="box" onclick="AddLine(404)">
+      <h3>404</h3>
+      <p class="station">Nuenen</p>
+    </div>
+    <div id="linebutton" class="box" onclick="AddLine(405)">
+      <h3>405</h3>
+      <p class="station">Achste barrier</p>
+    </div>
+    <div id="linebutton" class="box" onclick="AddLine(406)">
+      <h3>406</h3>
+      <p class="station">Ekkersrijt</p>
+    </div>
+    <div id="linebutton" class="box" onclick="AddLine(407)">
+      <h3>407</h3>
+      <p class="station">High Tech Campus</p>
+    </div>
+  </div>
+
+  <script src='renderer.js'></script>
+</body>
+
 </html>

@@ -7,7 +7,7 @@ mapboxgl.accessToken =
 //Create new map object
 var map = new mapboxgl.Map({
     container: "container",
-    style: "mapbox://styles/mapbox/light-v10",
+    style: "mapbox://styles/mapbox/streets-v11",
     zoom: 12,
     center: [5.478914, 51.4438373]
 
@@ -17,87 +17,110 @@ var map = new mapboxgl.Map({
 var markers = [];
 
 //TODO: remove hardcoded path and load paths from server
-const viernulzeven = [
-[5.478914, 51.4438373],
-[5.4789998, 51.4436082],
-[5.4792841, 51.4436701],
-[5.479091, 51.4442218],
-[5.4770445, 51.443874],
-[5.4767361, 51.4446531],
-[5.4767951, 51.4459938],
-[5.4770258, 51.4463381],
-[5.4778652, 51.4510687],
-[5.4779377, 51.4515636],
-[5.4779765, 51.4519714],
-[5.4779672, 51.452396],
-[5.477884, 51.4528974],
-[5.4776883, 51.4542546],
-[5.4771277, 51.4571761],
-[5.4753198, 51.4659327],
-[5.4749577, 51.4661834],
-[5.4745473, 51.4671693],
-[5.4705589, 51.4671192],
-[5.4697515, 51.467323],
-[5.4689683, 51.4673431],
-[5.4682951, 51.4674801],
-[5.467819, 51.4676422],
-[5.4675468, 51.4677808],
-[5.4625585, 51.472641],
-[5.4578431, 51.4772561],
-[5.4562225, 51.4789544],
-[5.4489829, 51.4763886],
-[5.4423824, 51.4739427],
-[5.4385816, 51.4725276],
-[5.4378346, 51.472221],
-[5.4370394, 51.4718142],
-[5.4309024, 51.4680281],
-[5.4301407, 51.4676004],
-[5.4292743, 51.4672545],
-[5.428463, 51.4670531],
-[5.4276624, 51.4669186],
-[5.4256373, 51.466683],
-[5.4248715, 51.4665351],
-[5.4240843, 51.4663204],
-[5.4232367, 51.4660096],
-[5.4211016, 51.4650304],
-[5.4181083, 51.4639743],
-[5.4072833, 51.4672747],
-[5.4064034, 51.467608],
-[5.4040965, 51.4681283],
-[5.4017306, 51.4647813],
-[5.3999577, 51.4621753],
-[5.3997526, 51.4619051],
-[5.3994724, 51.4616348],
-[5.3973802, 51.460445],
-[5.3967418, 51.4601291],
-[5.3950198, 51.4596194],
-[5.3936251, 51.4592158],
-[5.3934212, 51.4591197],
-[5.3928097, 51.4585891],
-[5.3927775, 51.4584876],
-[5.3929009, 51.4580785],
-[5.3929767, 51.4576958],
-[5.3931767, 51.4571071],
-[5.3931782, 51.4570533],
-[5.3929222, 51.4570144],
-[5.3926823, 51.4569154],
-[5.3926025, 51.4566998],
-[5.3927373, 51.4565745],
-[5.3928016, 51.4565845]]
+const viernulzeven = [[5.4785354, 51.4438474],
+[5.4787178, 51.4436],
+[5.4793722, 51.4436802],
+[5.4790504, 51.4441952],
+[5.4769797, 51.4438942],
+[5.4768207, 51.4438557],
+[5.4745837, 51.4434011],
+[5.4758336, 51.441221],
+[5.4747661, 51.4390509],
+[5.474707, 51.4387165],
+[5.4749699, 51.4383955],
+[5.4760187, 51.437929],
+[5.4771171, 51.4372878],
+[5.4780759, 51.4365529],
+[5.4793634, 51.4355631],
+[5.480211, 51.43463],
+[5.4838293, 51.4322121],
+[5.4848298, 51.4324027],
+[5.4849083, 51.4323525],
+[5.4855279, 51.4311778],
+[5.4860885, 51.4299495],
+[5.4868395, 51.4285172],
+[5.4869012, 51.4282492],
+[5.4868234, 51.4278642],
+[5.4856084, 51.4239674],
+[5.4847379, 51.4210595],
+[5.4834707, 51.4166463],
+[5.4817809, 51.4167701],
+[5.477197, 51.4172769],
+[5.4763354, 51.4173527],
+[5.4754844, 51.4173748],
+[5.4737175, 51.4172122],
+[5.470454, 51.4168353],
+[5.4695735, 51.4168341],
+[5.4675773, 51.4169466],
+[5.4662811, 51.4170834],
+[5.4653497, 51.4172502],
+[5.4647113, 51.4159734],
+[5.4643223, 51.4147501],
+[5.4638476, 51.4129426],
+[5.463738, 51.4129397],
+[5.4636255, 51.4129148],
+[5.4635399, 51.4128732],
+[5.4634651, 51.412795],
+[5.4634091, 51.4126933],
+[5.463279, 51.4121212], [5.463257, 51.4120709],
+[5.4632309, 51.4119458],
+[5.4632342, 51.4117948],
+[5.4632744, 51.4117082],
+[5.4634058, 51.4115639],
+[5.4627648, 51.4090874],
+[5.4622391, 51.4068384],
+[5.4617925, 51.4068535],
+[5.461692, 51.4068368],
+[5.4612293, 51.4064729],
+[5.4611512, 51.4064321],
+[5.461073, 51.406408],
+[5.4609839, 51.4063917],
+[5.4523458, 51.4061742],
+[5.4522556, 51.4061796],
+[5.4521708, 51.4061934],
+[5.4521087, 51.4062315],
+[5.4520737, 51.4062739],
+[5.4520494, 51.406349],
+[5.4519086, 51.4088377],
+[5.4518388, 51.4091188],
+[5.4502832, 51.4126112],
+[5.4502637, 51.4126911],
+[5.4502813, 51.4127468],
+[5.450323, 51.4127841],
+[5.450377, 51.4128136],
+[5.4590204, 51.4143117],
+[5.4626213, 51.4149373],
+[5.4627219, 51.4149482],
+[5.4628225, 51.414944],
+[5.4633549, 51.4148813],
+[5.4643178, 51.4147583],
+[5.4645122, 51.4147967],
+[5.4646235, 51.4151246]]
 
 //Map loaded
 map.on("load", function () {
 
 });
 
+function DisableElement(elementName){
+    var el = document.getElementsByClassName(elementName)[0];
+    el.style.display = "none";
+}
+
+function EnableElement(elementName){
+    var el = document.getElementsByClassName(elementName)[0];
+    el.style.display = "block";
+}
+
 //Add line and markers to map
-function AddLine(){
+function AddLine(lijnNr) {
+    DisableElement('selection')
     AddBusLine(viernulzeven, '#5b85aa', 8)
-    AddStopMarkers(viernulzeven, "custom-marker")
+    RequestStopPositions(lijnNr);
 }
 
 //Remove line and markers from map
-function RemoveLine(){
+function RemoveLine() {
     map.removeLayer("route");
     map.removeSource("route");
     markers.forEach(marker => {
@@ -109,21 +132,65 @@ function RemoveLine(){
 
 //Move to the location of the clicked marker
 function MarkerClicked(point) {
-    map.flyTo({center: point, zoom: 15})
+    map.flyTo({ center: point, zoom: 15 })
+}
+
+function RequestLinePositions(lijnNr){
+    var request = new XMLHttpRequest();
+
+    request.open('GET', 'http://localhost:3000/route/' + lijnNr, true);
+
+    request.onload = function () {
+        var lines = JSON.parse(request.response);
+        var allStops = [];
+        Object.values(lines.actualsData).forEach(function (key) {
+                var stops = Object.values(key.Stops);
+                if (stops.length > allStops.length) {
+                    allStops = stops;
+                }
+        });
+
+        AddStopMarkers(allStops);
+    }
+
+    request.send();
+}
+
+function RequestStopPositions(lijnNr){
+    var request = new XMLHttpRequest();
+
+    request.open('GET', 'http://localhost:3000/actuals/eindhoven/' + lijnNr, true);
+
+    request.onload = function () {
+        var lines = JSON.parse(request.response);
+        var allStops = [];
+        Object.values(lines.actualsData).forEach(function (key) {
+                var stops = Object.values(key.Stops);
+                if (stops.length > allStops.length) {
+                    allStops = stops;
+                }
+        });
+
+        AddStopMarkers(allStops);
+    }
+
+    request.send();
 }
 
 //Create a marker for every position in points
 function AddStopMarkers(points) {
     points.forEach(point => {
+        var latLong = [point.Longitude, point.Latitude]
+        console.log(latLong);
         var el = document.createElement('div');
         el.className = 'marker';
         el.style.cursor = 'pointer';
-        el.addEventListener("click", function(){MarkerClicked(point)}); 
+        el.addEventListener("click", function () { MarkerClicked(point) });
 
         var mark = new mapboxgl.Marker(el, {
             offset: [0, -19]
         })
-            .setLngLat(point)
+            .setLngLat(latLong)
             .addTo(map);
 
         markers.push(mark);
@@ -157,10 +224,10 @@ function AddBusLine(points, color, width) {
     });
 
     //Get the bounds of the line
-    var bounds = points.reduce(function(bounds,coord){
+    var bounds = points.reduce(function (bounds, coord) {
         return bounds.extend(coord);
     }, new mapboxgl.LngLatBounds(points[0], points[0]));
 
     //Move the camera so the line fits on screen
-    map.fitBounds(bounds , {padding: 80})
+    map.fitBounds(bounds, { padding: 80 })
 }

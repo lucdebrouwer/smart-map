@@ -120,7 +120,7 @@ function AddLine(lijnNr) {
 }
 
 //Remove line and markers from map
-function RemoveLine() {
+function ClearMap() {
     map.removeLayer("route");
     map.removeSource("route");
     markers.forEach(marker => {
@@ -128,6 +128,9 @@ function RemoveLine() {
     })
 
     markers = [];
+
+    DisableElement('topbar');
+    EnableElement('selection');
 }
 
 //Move to the location of the clicked marker

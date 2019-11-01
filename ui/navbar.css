@@ -1,34 +1,32 @@
-body{
+body {
   font: 15px/1.5 Arial, Helvetica,sans-serif;
   padding:0;
   background-color:#000000;
-  
 }
-.box{
+
+.box {
   background: #ededed;
   margin: 0px;
   text-align: left;
  border-radius: 10px;
 }
 
-h{
+h {
   background: #ededed;
 }
+
 a {
   text-decoration: none;
   display: inline;
   padding: 8px 16px;
 }
 
-
-
-.container{
+.container {
   margin-top: 2%;
   width: auto;
   border-radius: 30px;
   padding: 10px;
   text-align: left;
-
-background: #fafafa;
-float: left;
+  background: #fafafa;
+  float: left;
 }

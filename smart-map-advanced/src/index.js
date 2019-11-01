@@ -17,8 +17,7 @@ const createWindow = () => {
     },
     width: 800,
     height: 600,
-    fullscreen: true,
-    frame: false
+    fullscreen: false
   });
 
   // and load the index.html of the app.

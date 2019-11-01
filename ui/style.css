@@ -1,42 +1,54 @@
-body{
+body {
   font: 15px/1.5 Arial, Helvetica,sans-serif;
   padding:0;
   background-color:#000000;
+}
+
+.selector {
   margin-top: 50%;
   margin-bottom: 50%;
 }
 
-/* Global */
-.container{
-    margin: auto;
-    width: 60%;
-    border-radius: 20px;
-    padding: 10px;
-    text-align: center;
-    margin-left: auto;
+.container {
+  margin: auto;
+  width: 500px;
+  border-radius: 20px;
+  padding: 10px;
+  text-align: center;
+  margin-left: auto;
   margin-right: auto;
   background: #fafafa;
-
-
 }
 
-.box{
+.box {
   background: #ededed;
   margin: 0px;
   text-align: center;
- border-radius: 10px;
+  border-radius: 10px;
 }
 
-p{
+p {
   margin-top: 10px;
   margin-bottom: 4px;
 }
 
-h3{
+h3 {
   margin-top: 10px;
   margin-bottom: 4px;
+}
+
+a {
+  text-decoration: none;
+  display: inline;
+  padding: 8px 16px;
 }
 
 .station {
   margin-top: -10px;
+}
+
+.backbutton {
+  margin-top: -49%;
+  float: left;
+  width: 200px;
 }

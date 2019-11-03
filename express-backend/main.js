@@ -2,6 +2,7 @@ const express = require("express");
 const fetch = require("node-fetch");
 const app = express();
 
+app.use("/", express.static("public"));
 const mainRoute = require("./routes/route");
 app.use(mainRoute);
 // Returns all journey data in region Eindhoven
@@ -121,19 +122,7 @@ async function getLineDataPerRegion() {
 
 /*  -------- Main Route --------- */
 app.get("/", (req, res) => {
-  res.json({
-    message: "Welcome to the smart-map API",
-    possibleRoutes: [
-      "/journey",
-      "/journey/eindhoven",
-      "/actuals/eindhoven/:journeykey",
-      "/lines/",
-      "/lines/dacs/",
-      "/route",
-      "/route/:line"
-      //"/lines/:dac_:lpn_:direction"
-    ]
-  });
+  res.sendFile("index.html");
 });
 
 //TODO:  Build API route that retrieves the line data

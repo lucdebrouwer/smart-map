@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="css/index.css" />
+    <link rel="stylesheet"
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"">"
+    <title>ictdebrouwer | Smart Map</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="jumbotron">
+        <h2>Welcome to Smartmap</h2>
+        <p>
+          Smartmap is an interactive public transport map application. On this
+          map you can access transport lines and get their directions,
+          actualities on start/stop times and all possible stops
+        </p>
+        <p>
+          For this project we've created an interactive user interface and a
+          backend application that handles the data. Our api utilizes the data from <a href="https://github.com/skywave/KV78Turbo-OVAPI/wiki/Journey">ovapi</a>
+        </p>
+      </div>
+      <div class="routes">
+        <table class="table">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">Possible Routes</th>
+              <th scope="col">
+                Description
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>/journey/eindhoven</td>
+              <td>
+                This will return a list of possible journeykeys with data owner
+                code CXX. The region code for Eindhoven.
+              </td>
+            </tr>
+            <tr>
+              <td>/actuals/eindhoven/:journeykey</td>
+              <td>This will return a list of the actual information for that particular bus. You will need the journey key from the previous routes to access this data</td>
+            </tr>
+            <tr>
+              <td>/lines</td>
+              <td>This will return a list of driving bussess throughout the entire country</td>
+            </tr>
+            <tr>
+              <td>/lines/dacs/</td>
+              <td>This will return a list of area owner codes. These are needed to access data per region. ARR is arriva and CXX is Bravo</td>
+            </tr>
+            <tr>
+              <td>/route</td>
+              <td>This will return a list of all coordinates for each line that represent a bus stop. We use these coordinates to build the directions line from start destination to end destination</td>
+            </tr>
+            <td>/route/:line</td>
+            <td>This will return a list of all coordinates for a specific line that represent a bus stop. We use these coordinates to build the directions line from start destination to end destination. <br><strong>NOTE:</strong> You will need to add a capital L before the linenumber otherwise you won't get any data back.
+              possible lines: [L400, L401, L402, L403, L404, L405, L406, L407]
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content">
+        <h2>How it works</h2>
+        <p>When the application is launched, a map will be shown along side with an user interface of the possible lines you can select. 
+          In this example we've chosen to show how our application builds the directions line and provides all possible bus stops on the map. 
+          In the end we want to provide the data per stop when you click on one of the stops.
+        </p>
+        <img src="img/400.png"/>
+      </div>
+
+      <!-- <ul>
+        <li><a href="/journey">Journey</a></li>
+        <li><a href="/journey/eindhoven">Journey from Eindhoven</a></li>
+        <li><a href="/actuals/eindhoven/:line">The actuals per line</a></li>
+        <li><a href="/line">All lines</a></li>
+        <li><a href="/line/dacs">All Area Owner Codes</a></li>
+        <li>
+          <a href="/route/">All coordinaties for the lines L400 - L407</a>
+        </li>
+        <li><a href="/route/:line">Coordinates for a specific line</a></li>
+      </ul> -->
+    </div>
+    <scrpt></scrpt>
+    <script
+      type="text/javascript"
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    ></script>
+  </body>
+</html>

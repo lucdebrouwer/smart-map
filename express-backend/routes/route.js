@@ -1,10 +1,11 @@
 const express = require("express");
-app = express();
 const router = express.Router();
 const bodyParser = require("body-parser");
 const data = require("../data/data.json");
-app.use(bodyParser.json()); // support json encoded bodies
-app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
+
+router.use(bodyParser.json()); // support json encoded bodies
+router.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
+
 // Route that will retrieve all our line data
 router.get("/route", async (req, res, next) => {
   try {
@@ -48,22 +49,28 @@ let stops = {
   shouldStop: 0
 };
 
-router.get("/route/stop", async (req, res, next) => {
+/* Section for arduino 
+TODO in future: Add unique identifier to check which bus should stop, for now universal. 
+*/
+router.get("/bus/stop", (req, res, next) => {
   res.json({ stops });
 });
 
-router.post("/route/stops", (req, res, next) => {
+router.post("/bus", (req, res, next) => {
   let stopCode = req.body.stopcode;
   stops.shouldStop = stopCode;
-  res.json({ stops });
-  // next();
-  // if (stopCode === 1) {
-  //   shouldStop = 1;
-  //   res.json(shouldStop);
-  // } else if (stopCode === 0) {
-  //   res.json(shouldStop);
-  // } else {
-  //   res.json({ error: "stopcode is not 0 or 1" });
-  // }
+  if (stops.shouldStop === "0") {
+    res.json({
+      shouldStop: stops.shouldStop
+    });
+  } else if (stops.shouldStop === "1") {
+    res.json({
+      shouldStop: stops.shouldStop
+    });
+  } else {
+    res.json({
+      error: "Stopcode can't be less than 0 or greater than 1"
+    });
+  }
 });
 module.exports = router;

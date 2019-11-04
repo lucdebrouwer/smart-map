@@ -1,4 +1,4 @@
-# Smartmap
+# Smartmap Introduction
 
 Welcome to Smartmap
 For the design challenge(proftaak) we(our proftaak group consisting of 6 persons) had a brainstorm session where we had to come up with 150 possible problems that we would like to solve, at the end we had to choose one problem. Our problem was with the public paper maps at bus stops being unclear. They show you all the lines instead of the line you're interested in.
@@ -13,59 +13,24 @@ This project integrates five different aspects of our study that we've followed 
 - ICT & Business
 - ICT & Media
 
-### How to use this Application?
+## Project Description
+Smartmap consists of three individual applications that communicate with each other. 
+The first application, our backend, the smart-map API is developed with express.js and is hosted on an nginx web server in the ictdebrouwer domain. Nginx serves as a proxy to redirect node requests back to PM2 (the process manager for node applications) so we can easily maintain the application and get real time information such as the amount of connections.
 
-You are currently on the page of the smartmap API. We consume public transport data from the https://github.com/skywave/KV78Turbo-OVAPI/wiki API
+The second application, our interactive client, the smart map client is developed in javascript and consumes our api and the mapbox api to create directions based upon the data we serve the client. When launched a browser based application will appear on the screen and you will be able to choose between 7 bus lines. For each bus a line is drawn on the screen and each bus stop is marked as well. When a stop is clicked, real time information will be shown. 
 
-if you're interested in contributing to the app, or use it for your own local project first clone the project.
-Afterwards you need to install all the necessary dependencies with
+The third application, our arduino client, makes http requests to the API to check whether someone has pressed the Stop here button at a bus stop. Whenever someone presses the button, a red LED will light up. 
+### How to use the API?
+The endpoint url for the api is https://ictdebrouwer.nl when initially visiting the webpage you will find a similar readme file with all the possible endpoints. However, if you would like to contribute to this project or test the api locally you can clone this project and run the following commands to launch the express app locally:
 
 ```
+// This will install all the necessary dependencies, such as express and the body-parser required to handle post requests.
 npm install
 ```
-
-then you can run the application.
-
+Next up you want to launch the application, running this command will launch a nodemon development server that will restart whenever a new change in code is found.
 ```
 npm start
 ```
+### How to use the client?
 
-This will start a nodemon development server.
-
-If you want to use the api, you can use the following endpoints.
-
-For a further explanation of what each route does and to call the api, please refer to https://ictdebrouwer.nl
-
-```
-GET /journey/
-GET /journey/eindhoven
-GET /actuals/eindhoven/:journeykey
-GET /lines
-GET /lines/dacs/
-GET /route
-GET /route/:line
-GET /bus/stop
-POST /bus
-
-```
-
-### Example API call
-
-```
-fetch('https://ictdebrouwer.nl/journey')
- .then(res => res.json())
- .then(res => console.log(res))
-
-// Data
-{
-
-    data: {
-    0: "CXX_20191104_N009_14_0",
-    1: "CXX_20191104_L319_277_0",
-    2: "CXX_20191104_M181_636_0",
-    3: "CXX_20191104_N073_57_0",
-    4: "CXX_20191104_X085_44_0",
-    5: "CXX_20191104_M341_102_0",
-    6: "CXX_20191104_L406_108_0",
-}
-```
+### How to use the Arduino project

@@ -50,7 +50,7 @@ function ClearMap() {
     if (map.getSource("route") != undefined) {
         map.removeSource("route");
     }
-    
+
     //Delete any markers and info boxes
     DeleteElement('marker');
     DeleteElement('infobox');
@@ -222,4 +222,10 @@ function AddBusLine(points, color, width) {
     map.fitBounds(bounds, {
         padding: 80
     });
+}
+
+if(document.getElementsById('button').disabled){
+    document.getElementById('buslijn').style.marginTop = "5%";
+} else {
+    document.getElementById('buslijn').style.marginTop = "";
 }

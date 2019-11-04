@@ -3,13 +3,13 @@ body {
 }
 
 .routes {
-  background-color: #fff;
-}
-
-.routes {
-  background-color: #fff;
+  background-color: #f1f1f1;
 }
 
 h2 {
   color: dodgerblue;
+}
+
+img {
+  width: 100%;
 }

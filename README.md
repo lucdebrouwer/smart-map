@@ -21,10 +21,11 @@ The second application, our interactive client, the smart map client is develope
 
 The third application, our arduino client, makes http requests to the API to check whether someone has pressed the Stop here button at a bus stop. Whenever someone presses the button, a red LED will light up. 
 ### How to use the API?
-The endpoint url for the api is https://ictdebrouwer.nl when initially visiting the webpage you will find a similar readme file with all the possible endpoints. However, if you would like to contribute to this project or test the api locally you can clone this project and run the following commands to launch the express app locally:
+The endpoint url for the api is https://ictdebrouwer.nl when initially visiting the webpage you will find a similar readme file with all the possible endpoints. However, if you would like to contribute to this project or test the api locally you can clone this project and run the following commands to launch the express app locally.
+
+This will install all the necessary dependencies, such as express and the body-parser required to handle post requests.
 
 ```
-// This will install all the necessary dependencies, such as express and the body-parser required to handle post requests.
 npm install
 ```
 Next up you want to launch the application, running this command will launch a nodemon development server that will restart whenever a new change in code is found.

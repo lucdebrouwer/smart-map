@@ -1,7 +1,10 @@
 const express = require("express");
 const router = express.Router();
-
+const bodyParser = require("body-parser");
 const data = require("../data/data.json");
+
+router.use(bodyParser.json()); // support json encoded bodies
+router.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 // Route that will retrieve all our line data
 router.get("/route", async (req, res, next) => {
@@ -42,4 +45,44 @@ router.get("/route/:line", (req, res, next) => {
   }
 });
 
+let stops = {
+  shouldStop: 0
+};
+
+/* Section for arduino 
+TODO in future: Add unique identifier to check which bus should stop, for now universal. 
+*/
+router.get("/bus/stop", (req, res, next) => {
+  res.json({ stops });
+});
+
+router.post("/bus", (req, res, next) => {
+  let stopCode = req.body.stopcode;
+  stops.shouldStop = stopCode;
+  switch (stopCode) {
+    case "0":
+      res.json({
+        message:
+          "The API received stopcode: " +
+          stops.shouldStop +
+          " The bus should not stop"
+      });
+      break;
+    case "1":
+      res.json({
+        message:
+          "The API received stopcode: " +
+          stops.shouldStop +
+          " The bus should stop"
+      });
+      break;
+    default:
+      res.json({
+        message: "The API received stopcode: " + stops.shouldStop,
+        error:
+          "IndexOutOfRange Exception, stopcode can't be greater than 0 or less than zero"
+      });
+      stops.shouldStop = 0;
+  }
+});
 module.exports = router;

@@ -13,11 +13,6 @@ var map = new mapboxgl.Map({
 
 });
 
-//Map loaded
-map.on("load", function () {
-
-});
-
 //Disable an element by class name
 function DisableElement(elementName) {
     var el = document.getElementsByClassName(elementName)[0];
@@ -68,7 +63,7 @@ function ClearMap() {
 //Move to the location of the clicked marker
 function MarkerClicked(point) {
     var latLong = [point.Longitude, point.Latitude];
-    console.log(latLong);
+    console.log(point);
 
     //Move camera so its centered on the clicked marker
     map.flyTo({
@@ -108,7 +103,7 @@ function RequestLinePositions(lijnNr) {
         //Parse the received JSON data to an object and draw the line
         var route = JSON.parse(request.response);
 
-        AddBusLine(route.myData, '#1976D2', 8);
+        AddBusLine(route.myData, '#039BE5', 8);
     }
 
     //Send the HTTP request to the server
@@ -132,10 +127,35 @@ function RequestStopPositions(lijnNr) {
         var allStops = [];
         Object.values(lines.actualsData).forEach(function (key) {
             var stops = Object.values(key.Stops);
-            if (stops.length > allStops.length) {
-                allStops = stops;
-            }
+            var fromStation = stops.filter((stop) => stop.LineDirection === 1);
+            var toStation = stops.filter((stop) => stop.LineDirection === 2)
+
+            fromStation.forEach(stop => {
+                var currentStop = allStops.some(e => e.TimingPointName == stop.TimingPointName);
+                console.log(currentStop)
+                if(currentStop != undefined){
+                    if(Date.parse(stop.ExpectedArrivalTime) <  Date.parse(currentStop.ExpectedArrivalTime)){
+                        
+                    }                 
+                }
+                else{
+                    console.log(Date.parse(stop.ExpectedArrivalTime) > Date.now())
+                    if(Date.parse(stop.ExpectedArrivalTime) > Date.now()){
+                        allStops.push({
+                        name: stop.TimingPointName,
+                        line: stop.LinePublicNumber,
+                        location: [stop.Longitude, stop.Latitude],
+                        fromTime: stop.ExpectedArrivalTime
+                    });
+                    }
+                }
+            });
+
+            toStation.forEach(e => {
+
+            });
         });
+        console.log(allStops);
         AddStopMarkers(allStops);
     }
 

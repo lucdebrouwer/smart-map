@@ -26,8 +26,8 @@ function EnableElement(elementName) {
 }
 
 //Delete all elements by class name
-function DeleteElement(elementName){
-    Array.from(document.getElementsByClassName(elementName)).forEach(function(element) {
+function DeleteElement(elementName) {
+    Array.from(document.getElementsByClassName(elementName)).forEach(function (element) {
         element.remove();
     });
 }
@@ -62,8 +62,7 @@ function ClearMap() {
 
 //Move to the location of the clicked marker
 function MarkerClicked(point) {
-    var latLong = [point.Longitude, point.Latitude];
-    console.log(point);
+    var latLong = point.location;
 
     //Move camera so its centered on the clicked marker
     map.flyTo({
@@ -80,13 +79,31 @@ function MarkerClicked(point) {
     el.style.cursor = 'pointer';
 
     var title = document.createElement('h1');
-    title.appendChild(document.createTextNode(point.TimingPointName));
+    title.appendChild(document.createTextNode(point.name));
+
+    var ends = point.lineName.split(' - ');
+
+    var fromTitle = document.createElement('h2');
+    fromTitle.appendChild(document.createTextNode('Richting ' + ends[0]));
+
+    var from = document.createElement('h3');
+    from.appendChild(document.createTextNode(new Date(point.fromTime).toLocaleTimeString()));
+
+    var toTitle = document.createElement('h2');
+    toTitle.appendChild(document.createTextNode('Richting ' + ends[ends.length - 1]));
+
+    var to = document.createElement('h3');
+    to.appendChild(document.createTextNode(new Date(point.toTime).toLocaleTimeString()));
 
     el.appendChild(title);
+    el.appendChild(fromTitle);
+    el.appendChild(from);
+    el.appendChild(toTitle);
+    el.appendChild(to);
 
     new mapboxgl.Marker(el, {
-            offset: [0, -80]
-        })
+        offset: [0, -80]
+    })
         .setLngLat(latLong)
         .addTo(map);
 }
@@ -125,34 +142,75 @@ function RequestStopPositions(lijnNr) {
 
         //Get the object with the most bus stops attached to draw the stops on the map
         var allStops = [];
-        Object.values(lines.actualsData).forEach(function (key) {
-            var stops = Object.values(key.Stops);
+        Object.values(lines.actualsData).forEach(function (line) {
+            var stops = Object.values(line.Stops);
+
             var fromStation = stops.filter((stop) => stop.LineDirection === 1);
-            var toStation = stops.filter((stop) => stop.LineDirection === 2)
+            var toStation = stops.filter((stop) => stop.LineDirection === 2);
+
+            console.log(fromStation);
 
             fromStation.forEach(stop => {
-                var currentStop = allStops.some(e => e.TimingPointName == stop.TimingPointName);
-                console.log(currentStop)
-                if(currentStop != undefined){
-                    if(Date.parse(stop.ExpectedArrivalTime) <  Date.parse(currentStop.ExpectedArrivalTime)){
-                        
-                    }                 
+                if (Date.parse(stop.ExpectedArrivalTime) < Date.now()) return;
+
+                var currentStop;
+
+                allStops.forEach(oldStop => {
+                    if (oldStop.name == stop.TimingPointName) {
+                        currentStop = oldStop;
+                        return;
+                    }
+                });
+
+                if (currentStop != undefined) {
+                    console.log(Date.parse(stop.ExpectedArrivalTime) < Date.parse(currentStop.fromTime))
+                    if (Date.parse(stop.ExpectedArrivalTime) < Date.parse(currentStop.fromTime)) {
+                        currentStop.fromTime = stop.ExpectedArrivalTime;
+                    }
                 }
-                else{
-                    console.log(Date.parse(stop.ExpectedArrivalTime) > Date.now())
-                    if(Date.parse(stop.ExpectedArrivalTime) > Date.now()){
+                else {
+                    if (Date.parse(stop.ExpectedArrivalTime) > Date.now()) {
                         allStops.push({
-                        name: stop.TimingPointName,
-                        line: stop.LinePublicNumber,
-                        location: [stop.Longitude, stop.Latitude],
-                        fromTime: stop.ExpectedArrivalTime
-                    });
+                            lineName: stop.LineName,
+                            name: stop.TimingPointName,
+                            line: stop.LinePublicNumber,
+                            location: [stop.Longitude, stop.Latitude],
+                            fromTime: stop.ExpectedArrivalTime,
+                            toTime: null
+                        });
                     }
                 }
             });
 
-            toStation.forEach(e => {
+            toStation.forEach(stop => {
+                if (Date.parse(stop.ExpectedArrivalTime) < Date.now()) return;
 
+                var currentStop;
+
+                allStops.forEach(oldStop => {
+                    if (oldStop.name == stop.TimingPointName) {
+                        currentStop = oldStop;
+                        return;
+                    }
+                });
+
+                if (currentStop != undefined) {
+                    if (currentStop.toTime == null || Date.parse(stop.ExpectedArrivalTime) < Date.parse(currentStop.toTime)) {
+                        currentStop.toTime = stop.ExpectedArrivalTime;
+                    }
+                }
+                else {
+                    if (Date.parse(stop.ExpectedArrivalTime) > Date.now()) {
+                        allStops.push({
+                            lineName: stop.LineName,
+                            name: stop.TimingPointName,
+                            line: stop.LinePublicNumber,
+                            location: [stop.Longitude, stop.Latitude],
+                            fromTime: null,
+                            toTime: stop.ExpectedArrivalTime
+                        });
+                    }
+                }
             });
         });
         console.log(allStops);
@@ -168,7 +226,7 @@ function AddStopMarkers(points) {
 
     //Loop through every point and create a marker at the position
     points.forEach(point => {
-        var latLong = [point.Longitude, point.Latitude];
+        var latLong = point.location;
 
         var el = document.createElement('div');
         el.className = 'marker';
@@ -182,8 +240,8 @@ function AddStopMarkers(points) {
         new mapboxgl.Marker(el, {
             offset: [0, -19]
         })
-        .setLngLat(latLong)
-        .addTo(map);
+            .setLngLat(latLong)
+            .addTo(map);
     });
 }
 
@@ -222,10 +280,4 @@ function AddBusLine(points, color, width) {
     map.fitBounds(bounds, {
         padding: 80
     });
-}
-
-if(document.getElementsById('button').disabled){
-    document.getElementById('buslijn').style.marginTop = "5%";
-} else {
-    document.getElementById('buslijn').style.marginTop = "";
 }

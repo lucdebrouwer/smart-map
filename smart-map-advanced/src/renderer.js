@@ -13,22 +13,28 @@ var map = new mapboxgl.Map({
 
 });
 
-//Stores currently loaded markers
-var markers = [];
-
 //Map loaded
 map.on("load", function () {
 
 });
 
-function DisableElement(elementName){
+//Disable an element by class name
+function DisableElement(elementName) {
     var el = document.getElementsByClassName(elementName)[0];
     el.style.display = "none";
 }
 
-function EnableElement(elementName){
+//Enable an element by class name
+function EnableElement(elementName) {
     var el = document.getElementsByClassName(elementName)[0];
     el.style.display = "block";
+}
+
+//Delete all elements by class name
+function DeleteElement(elementName){
+    Array.from(document.getElementsByClassName(elementName)).forEach(function(element) {
+        element.remove();
+    });
 }
 
 //Add line and markers to map
@@ -41,73 +47,123 @@ function AddLine(lijnNr) {
 
 //Remove line and markers from map
 function ClearMap() {
-    map.removeLayer("route");
-    map.removeSource("route");
-    markers.forEach(marker => {
-        marker.remove();
-    })
 
-    markers = [];
+    //Clear any lines that are drawn on the map
+    if (map.getLayer("route") != undefined) {
+        map.removeLayer("route");
+    }
+    if (map.getSource("route") != undefined) {
+        map.removeSource("route");
+    }
+    
+    //Delete any markers and info boxes
+    DeleteElement('marker');
+    DeleteElement('infobox');
 
+    //Disable the top controls and enable the line selection menu
     DisableElement('topbar');
     EnableElement('selection');
 }
 
 //Move to the location of the clicked marker
 function MarkerClicked(point) {
-    map.flyTo({ center: point, zoom: 15 })
+    var latLong = [point.Longitude, point.Latitude];
+    console.log(latLong);
+
+    //Move camera so its centered on the clicked marker
+    map.flyTo({
+        center: latLong,
+        zoom: 15
+    });
+
+    //Delete any previous opened info boxes
+    DeleteElement('infobox');
+
+    //Create new info box
+    var el = document.createElement('div');
+    el.className = 'infobox';
+    el.style.cursor = 'pointer';
+
+    var title = document.createElement('h1');
+    title.appendChild(document.createTextNode(point.TimingPointName));
+
+    el.appendChild(title);
+
+    new mapboxgl.Marker(el, {
+            offset: [0, -80]
+        })
+        .setLngLat(latLong)
+        .addTo(map);
 }
 
-function RequestLinePositions(lijnNr){
+//Get an array of positions from the server used to draw route lines on the map
+function RequestLinePositions(lijnNr) {
+    //Create a request
     var request = new XMLHttpRequest();
+    request.open('GET', ' http://ictdebrouwer.nl/route/' + lijnNr, true);
 
-    request.open('GET', 'http://localhost:3000/route/' + lijnNr, true);
-
+    //Set the callback that happens when the request is finished
     request.onload = function () {
+
+        //Parse the received JSON data to an object and draw the line
         var route = JSON.parse(request.response);
-        AddBusLine(route.myData, '#5b85aa', 8);
+
+        AddBusLine(route.myData, '#1976D2', 8);
     }
 
+    //Send the HTTP request to the server
     request.send();
 }
 
-function RequestStopPositions(lijnNr){
+//Get object containing all currently active busses from a line used to draw stops and show bus data
+function RequestStopPositions(lijnNr) {
+
+    //Create a request
     var request = new XMLHttpRequest();
+    request.open('GET', ' http://ictdebrouwer.nl/actuals/eindhoven/' + lijnNr, true);
 
-    request.open('GET', 'http://localhost:3000/actuals/eindhoven/' + lijnNr, true);
-
+    //Set the callback that happens when the request is finished
     request.onload = function () {
+
+        //Parse the received JSON data to an object
         var lines = JSON.parse(request.response);
+
+        //Get the object with the most bus stops attached to draw the stops on the map
         var allStops = [];
         Object.values(lines.actualsData).forEach(function (key) {
-                var stops = Object.values(key.Stops);
-                if (stops.length > allStops.length) {
-                    allStops = stops;
-                }
+            var stops = Object.values(key.Stops);
+            if (stops.length > allStops.length) {
+                allStops = stops;
+            }
         });
-
         AddStopMarkers(allStops);
     }
 
+    //Send the HTTP request to the server
     request.send();
 }
 
 //Create a marker for every position in points
 function AddStopMarkers(points) {
+
+    //Loop through every point and create a marker at the position
     points.forEach(point => {
-        var latLong = [point.Longitude, point.Latitude]
+        var latLong = [point.Longitude, point.Latitude];
+
         var el = document.createElement('div');
         el.className = 'marker';
         el.style.cursor = 'pointer';
-        el.addEventListener("click", function () { MarkerClicked(point) });
 
-        var mark = new mapboxgl.Marker(el, {
+        //Add a callback for when a marker is clicked
+        el.addEventListener("click", function () {
+            MarkerClicked(point);
+        });
+
+        new mapboxgl.Marker(el, {
             offset: [0, -19]
         })
-            .setLngLat(latLong)
-            .addTo(map);
-
-        markers.push(mark);
+        .setLngLat(latLong)
+        .addTo(map);
     });
 }
 
@@ -143,5 +199,7 @@ function AddBusLine(points, color, width) {
     }, new mapboxgl.LngLatBounds(points[0], points[0]));
 
     //Move the camera so the line fits on screen
-    map.fitBounds(bounds, { padding: 80 })
+    map.fitBounds(bounds, {
+        padding: 80
+    });
 }

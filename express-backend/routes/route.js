@@ -59,18 +59,30 @@ router.get("/bus/stop", (req, res, next) => {
 router.post("/bus", (req, res, next) => {
   let stopCode = req.body.stopcode;
   stops.shouldStop = stopCode;
-  if (stops.shouldStop === "0") {
-    res.json({
-      shouldStop: stops.shouldStop
-    });
-  } else if (stops.shouldStop === "1") {
-    res.json({
-      shouldStop: stops.shouldStop
-    });
-  } else {
-    res.json({
-      error: "Stopcode can't be less than 0 or greater than 1"
-    });
+  switch (stopCode) {
+    case "0":
+      res.json({
+        message:
+          "The API received stopcode: " +
+          stops.shouldStop +
+          " The bus should not stop"
+      });
+      break;
+    case "1":
+      res.json({
+        message:
+          "The API received stopcode: " +
+          stops.shouldStop +
+          " The bus should stop"
+      });
+      break;
+    default:
+      res.json({
+        message: "The API received stopcode: " + stops.shouldStop,
+        error:
+          "IndexOutOfRange Exception, stopcode can't be greater than 0 or less than zero"
+      });
+      stops.shouldStop = 0;
   }
 });
 module.exports = router;

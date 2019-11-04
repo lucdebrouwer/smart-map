@@ -152,6 +152,16 @@ margin-top: -10px;
   bottom: -23px;
 }
 
-.infobox h1{
+.infobox h1 {
   margin: 0px;
+}
+
+.infobox h2 {
+  font-size: 15px;
+  margin-bottom: 5px;
+}
+
+.infobox h3 {
+  margin-top: 0px;
+  font-size: 20px;
 }

@@ -1,6 +1,6 @@
 const express = require("express");
 const fetch = require("node-fetch");
-app = express();
+const app = express();
 app.use("/", express.static("public"));
 const mainRoute = require("./routes/route");
 app.use(mainRoute);

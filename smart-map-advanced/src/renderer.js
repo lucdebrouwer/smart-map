@@ -111,13 +111,25 @@ function MarkerClicked(point) {
     fromTitle.appendChild(document.createTextNode('Richting ' + ends[0]));
 
     var from = document.createElement('h3');
-    from.appendChild(document.createTextNode(new Date(point.fromTime).toLocaleTimeString()));
+    if (point.fromTime != null) {
+        from.appendChild(document.createTextNode(new Date(point.fromTime).toLocaleTimeString()));
+    }
+    else {
+        from.appendChild(document.createTextNode('Onbekend'));
+        from.className = 'unknown';
+    }
 
     var toTitle = document.createElement('h2');
     toTitle.appendChild(document.createTextNode('Richting ' + ends[ends.length - 1]));
 
     var to = document.createElement('h3');
-    to.appendChild(document.createTextNode(new Date(point.toTime).toLocaleTimeString()));
+    if (point.toTime != null) {
+        to.appendChild(document.createTextNode(new Date(point.toTime).toLocaleTimeString()));
+    }
+    else {
+        from.appendChild(document.createTextNode('Onbekend'));
+        from.className = 'unknown';
+    }
 
     //Add all DOM elements to the parent element
     el.appendChild(title);

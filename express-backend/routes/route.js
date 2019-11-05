@@ -80,7 +80,7 @@ router.post("/bus", (req, res, next) => {
       res.json({
         message: "The API received stopcode: " + stops.shouldStop,
         error:
-          "IndexOutOfRange Exception, stopcode can't be greater than 0 or less than zero"
+          "IndexOutOfRange Exception, stopcode can't be greater than 1 or less than zero"
       });
       stops.shouldStop = 0;
   }

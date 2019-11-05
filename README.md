@@ -1,3 +1,5 @@
+
+![Header](https://i.imgur.com/RyaCwSS.png)
 # Smartmap Introduction
 
 Welcome to Smartmap
@@ -33,5 +35,20 @@ Next up you want to launch the application, running this command will launch a n
 npm start
 ```
 ### How to use the client?
+To use the client get the latest release from the release section and unpack the zip. Then run the executable.
 
-### How to use the Arduino project
+If you would like to contribute to this project or run the client from source you can clone this project and run the following commands to launch the client.
+
+This will install all the necessary dependencies, such as electron and mapbox.
+
+```
+npm install
+```
+Next up you want to launch the client, running this command will launch the client and will restart it whenever a new change in code is found.
+```
+npm start
+```
+### How to use the ESP8266 project
+The ESP8266 is a WiFi enabled microcontroller. In the UI it is possible to notify the bus driver to wait at the next bus stop. The ESP sends a GET request every 10 seconds to the API. If the bus has to wait, an LED will light up. Wire the ESP according to the schematic and flash the code using the Arduino IDE. Make sure to change the WiFi settings to the bus WiFi access point.
+
+![Schematic](https://i.imgur.com/RJCyToa.png)

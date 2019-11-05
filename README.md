@@ -33,5 +33,17 @@ Next up you want to launch the application, running this command will launch a n
 npm start
 ```
 ### How to use the client?
+To use the client get the latest release from the release section and unpack the zip. Then run the executable.
 
+If you would like to contribute to this project or run the client from source you can clone this project and run the following commands to launch the client.
+
+This will install all the necessary dependencies, such as electron and mapbox.
+
+```
+npm install
+```
+Next up you want to launch the client, running this command will launch the client and will restart it whenever a new change in code is found.
+```
+npm start
+```
 ### How to use the Arduino project

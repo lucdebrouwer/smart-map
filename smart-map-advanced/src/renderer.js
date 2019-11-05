@@ -127,8 +127,8 @@ function MarkerClicked(point) {
         to.appendChild(document.createTextNode(new Date(point.toTime).toLocaleTimeString()));
     }
     else {
-        from.appendChild(document.createTextNode('Onbekend'));
-        from.className = 'unknown';
+        to.appendChild(document.createTextNode('Onbekend'));
+        to.className = 'unknown';
     }
 
     //Add all DOM elements to the parent element

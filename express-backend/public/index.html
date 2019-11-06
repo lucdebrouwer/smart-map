@@ -55,52 +55,52 @@
                   <tbody>
                     <tr>
                       <td>GET</td>
-                      <td>/journey/</td>
+                      <td><a href="/journey/">/journey/</a></td>
                       <td>This will return a list of all journeykeys of busses that are currently driving in Noord-Brabant. This is specified by the Data Owner Code CXX</td>
                     </tr>
                     <tr>
                       <td>GET</td>
-                      <td>/journey/eindhoven</td>
+                      <td><a href="/journey/eindhoven">/journey/eindhoven</a></td>
                       <td>
                         This will return a list of journeykeys of busses that are currently driving in Eindhoven.
                       </td>
                     </tr>
                     <tr>
                       <td>GET</td>
-                      <td>/actuals/eindhoven/:journeykey</td>
+                      <td><a href="/actuals/eindhoven/:journeykey">/actuals/eindhoven/:journeykey</a></td>
                       <td>This will return a list of the actual information for that particular bus. You will need the journey key from the previous routes to access this data
                         an example of a possible actual route would be <strong>/actuals/eindhoven/400</strong>
                       </td>
                     </tr>
                     <tr>
                       <td>GET</td>
-                      <td>/lines</td>
+                      <td><a href="/lines">/lines</a></td>
                       <td>This will return a list of driving bussess throughout the entire country</td>
                     </tr>
                     <tr>
                       <td>GET</td>
-                      <td>/lines/dacs/</td>
+                      <td><a href="/lines/dacs">/lines/dacs/</a></td>
                       <td>This will return a list of area owner codes. These are needed to access data per region. ARR is arriva and CXX is Bravo</td>
                     </tr>
                     <tr>
                       <td>GET</td>
-                      <td>/route</td>
+                      <td><a href="/route">/route</a></td>
                       <td>This will return a list of all coordinates for each line that represent a bus stop. We use these coordinates to build the directions line from start destination to end destination</td>
                     </tr>
                     <td>GET</td>
-                    <td>/route/:line</td>
+                    <td><a href="/route/L406">/route/:line</a></td>
                     <td>This will return a list of all coordinates for a specific line that represent a bus stop. We use these coordinates to build the directions line from start destination to end destination. <br><strong>NOTE:</strong> You will need to add a capital L before the linenumber otherwise you won't get any data back.
                       possible lines: [L400, L401, L402, L403, L404, L405, L406, L407]
                     </td>
                   </tr>
                   <tr>
                       <td>GET</td>
-                      <td>/bus/stop</td>
+                      <td><a href="bus/stop">/bus/stop</a></td>
                       <td>Returns the stopcode for a bus, value will be either 0 or 1</td>
                   </tr>
                   <tr>
                       <td>POST</td>
-                      <td>/bus</td>
+                      <td><a href="/bus">/bus</a></td>
                       <td>This route is used to set the stopcode for a bus. When status is 1 a red LED will be turned on to notify the bus driver</td>
                   </tr>
                   </tbody>
